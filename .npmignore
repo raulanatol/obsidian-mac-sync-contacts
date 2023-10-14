@@ -1,0 +1,13 @@
+.editorconfig
+.eslintignore
+.eslintrc
+.github
+.nvmrc
+.scripts
+esbuild.config.mjs
+main.ts
+Makefile
+src
+tsconfig.json
+version-bump.mjs
+versions.json
