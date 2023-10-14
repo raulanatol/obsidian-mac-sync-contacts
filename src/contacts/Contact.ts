@@ -1,5 +1,14 @@
 const cleanup = value => value.toLowerCase().replaceAll(' ', '');
 
+const nameFromRaw = (fn: any): string => {
+	if (!fn) {
+		return '';
+	}
+
+	const rawValue = fn[0].value;
+	return rawValue.replaceAll('/', ' ');
+}
+
 const phonesFromRaw = (tel: any): string[] | undefined => {
 	if (!tel) {
 		return undefined;
@@ -68,7 +77,7 @@ export class Contact {
 	}
 
 	static fromRaw(raw: any): Contact {
-		const name = raw.fn?.[0].value;
+		const name = nameFromRaw(raw.fn);
 		const phones = phonesFromRaw(raw.tel);
 		const emails = emailsFromRaw(raw.email);
 		const website = websitesFromRaw(raw.url);

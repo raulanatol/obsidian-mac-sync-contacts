@@ -57,8 +57,7 @@ const parseContacts = (rawContacts: unknown) => {
 	return contacts;
 };
 
-export const getContacts = async () => {
+export const getContacts = async (): Promise<Contact[]> => {
 	const result = await getRawContacts();
-	const contacts = parseContacts(result);
-	console.log('contacts.ts [12]', contacts);
+	return parseContacts(result);
 }
