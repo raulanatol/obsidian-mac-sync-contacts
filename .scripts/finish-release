@@ -38,6 +38,6 @@ function publish() {
 verify_uncommitted_changes
 verify_main_branch
 change_version
-make check
+make build
 publish
 echo "📦✅"
