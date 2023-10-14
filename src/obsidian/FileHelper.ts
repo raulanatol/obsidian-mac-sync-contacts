@@ -1,5 +1,7 @@
 import { App, TAbstractFile, TFile } from 'obsidian';
 
+type Processor = (oldContent: string) => string;
+
 export class FileHelper {
 	readonly app: App;
 
@@ -20,5 +22,11 @@ export class FileHelper {
 
 	create(normalizedPath: string, body: string): Promise<TFile> {
 		return this.app.vault.create(normalizedPath, body);
+	}
+
+	async process(normalizedPath: TFile, processor: Processor): Promise<void> {
+		await this.app.vault.process(normalizedPath, (oldContent: string) => {
+			return processor(oldContent);
+		});
 	}
 }
