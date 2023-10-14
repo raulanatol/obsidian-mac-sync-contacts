@@ -80,7 +80,7 @@ export class SettingsTab extends PluginSettingTab {
 				fragment.append('Template for contact file\n. Using variables like {{contactName}} and {{contactEmail}}.\n',
 					fragment.createEl('a', {
 						text: 'Reference',
-						href: 'https://github.com/raulanatol/obsidian-mac-sync-contacts#template-variables'
+						href: 'https://github.com/raulanatol/obsidian-mac-sync-contacts?tab=readme-ov-file#template-variables'
 					}));
 			}))
 			.addTextArea(text => {
@@ -113,7 +113,7 @@ export class SettingsTab extends PluginSettingTab {
 				fragment.append('Properties in contact file\n. Using variables like {{contactName}} and {{contactEmail}}.\n',
 					fragment.createEl('a', {
 						text: 'Reference',
-						href: 'https://github.com/raulanatol/obsidian-mac-sync-contacts#template-variables'
+						href: 'https://github.com/raulanatol/obsidian-mac-sync-contacts?tab=readme-ov-file#template-variables'
 					}));
 			}))
 			.addTextArea(text => {
