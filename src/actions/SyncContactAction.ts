@@ -22,7 +22,8 @@ export class SyncContactAction {
 			.replace(/{{contactPhone}}/g, this.contact.phones?.[0] ?? '')
 			.replace(/{{contactWebsite}}/g, this.contact.website?.[0] ?? '')
 			.replace(/{{contactAddress}}/g, this.contact.address?.[0] ?? '')
-			.replace(/{{contactBirthday}}/g, this.contact.birthday?.toLocaleDateString() ?? '');
+			.replace(/{{contactBirthday}}/g, this.contact.birthday?.toLocaleDateString() ?? '')
+			.replace(/{{snake_contactName}}/g, this.contact.name.toLowerCase().replace(/ /g, '_'))
 	}
 
 	async execute() {
