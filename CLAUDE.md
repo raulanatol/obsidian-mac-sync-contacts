@@ -16,6 +16,7 @@ This is an Obsidian plugin (`isDesktopOnly: true`, macOS-only) that syncs entrie
 **Bundle**: `main.ts` is a thin re-export of `MacSyncContactsPlugin`. esbuild bundles to `main.js` at the repo root with `obsidian` and Electron/CodeMirror packages marked external — this layout (root-level `main.js` + `manifest.json` + `styles.css`) is what Obsidian loads.
 
 **Sync flow** (triggered by the ribbon icon in `MacSyncContactsPlugin.onload`):
+
 1. `SyncContactsAction` calls `getContacts()` in `src/contacts/contacts.ts`, which **spawns `osascript`** with a hard-coded AppleScript that reads vCards from a Contacts.app group **named `obsidian`**. If a user has no such group, sync returns zero contacts — this is intentional, not a bug.
 2. The raw output is split with a `BEGIN:VCARD…END:VCARD` regex and each chunk parsed via `vcard-parser` (untyped, `@ts-ignore` import) into `Contact` instances (`src/contacts/Contact.ts`). Values are lowercased and spaces stripped via `cleanup` — be aware this is lossy for things like addresses.
 3. For each contact, `SyncContactAction` resolves a target path (`<contactsFolder>/<name>.md`) and either creates a new file or — only if `settings.updateContacts` is true — updates the existing one.

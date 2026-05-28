@@ -4,16 +4,16 @@ import { SyncContactAction } from './SyncContactAction';
 import { Context } from '../obsidian/Context';
 
 export class SyncContactsAction {
-	private readonly context: Context;
+  private readonly context: Context;
 
-	constructor(context: Context) {
-		this.context = context;
-	}
+  constructor(context: Context) {
+    this.context = context;
+  }
 
-	async execute(): Promise<Contact[]> {
-		const contacts = await getContacts(this.context.settings.contactsGroup);
-		const promises = contacts.map(contact => new SyncContactAction(this.context, contact).execute());
-		await Promise.all(promises);
-		return contacts;
-	}
+  async execute(): Promise<Contact[]> {
+    const contacts = await getContacts(this.context.settings.contactsGroup);
+    const promises = contacts.map(contact => new SyncContactAction(this.context, contact).execute());
+    await Promise.all(promises);
+    return contacts;
+  }
 }
