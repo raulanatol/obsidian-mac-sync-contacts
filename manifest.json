@@ -1,11 +1,11 @@
 {
-	"id": "obsidian-mac-sync-contacts",
-	"name": "Mac Sync Contacts",
-	"version": "3.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "Sync your contacts with your Mac's Contacts app.",
-	"author": "raulanatol",
-	"authorUrl": "https://www.raulanatol.dev",
-	"fundingUrl": "https://www.raulanatol.dev",
-	"isDesktopOnly": true
+  "id": "obsidian-mac-sync-contacts",
+  "name": "Mac Sync Contacts",
+  "version": "3.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Sync your contacts with your Mac's Contacts app.",
+  "author": "raulanatol",
+  "authorUrl": "https://www.raulanatol.dev",
+  "fundingUrl": "https://www.raulanatol.dev",
+  "isDesktopOnly": true
 }
