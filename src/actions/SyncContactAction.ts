@@ -3,6 +3,7 @@ import { normalizePath, TFile } from 'obsidian';
 import { Context } from '../obsidian/Context';
 import { ContactFileProcessor } from './ContactFileProcessor';
 import { formatBirthday } from './formatBirthday';
+import { getGroupLetter, slugify } from '../contacts/slugify';
 
 export class SyncContactAction {
   readonly contact: Contact;
@@ -13,8 +14,17 @@ export class SyncContactAction {
     this.contact = contact;
   }
 
+  getContactFolder(): string {
+    const root = this.context.settings.contactsFolder;
+    if (!this.context.settings.groupByFirstLetter) {
+      return root;
+    }
+    return root + '/' + getGroupLetter(this.contact.name);
+  }
+
   getFilepath(): string {
-    return normalizePath(this.context.settings.contactsFolder + '/' + this.contact.name + '.md');
+    const filename = slugify(this.contact.name);
+    return normalizePath(this.getContactFolder() + '/' + filename + '.md');
   }
 
   replaceTemplateVariables(body: string): string {
@@ -45,7 +55,10 @@ export class SyncContactAction {
   }
 
   private async createContactsFolder(): Promise<void> {
-    return this.context.fileHelper.createFolderIfNotExists(this.context.settings.contactsFolder);
+    await this.context.fileHelper.createFolderIfNotExists(this.context.settings.contactsFolder);
+    if (this.context.settings.groupByFirstLetter) {
+      await this.context.fileHelper.createFolderIfNotExists(this.getContactFolder());
+    }
   }
 
   private toMarkdown(): string {
