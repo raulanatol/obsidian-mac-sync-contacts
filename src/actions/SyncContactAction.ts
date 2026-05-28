@@ -2,6 +2,7 @@ import { Contact } from '../contacts/Contact';
 import { normalizePath, TFile } from 'obsidian';
 import { Context } from '../obsidian/Context';
 import { ContactFileProcessor } from './ContactFileProcessor';
+import { formatBirthday } from './formatBirthday';
 
 export class SyncContactAction {
 	readonly contact: Contact;
@@ -22,7 +23,7 @@ export class SyncContactAction {
 			.replace(/{{contactPhone}}/g, this.contact.phones?.[0] ?? '')
 			.replace(/{{contactWebsite}}/g, this.contact.website?.[0] ?? '')
 			.replace(/{{contactAddress}}/g, this.contact.address?.[0] ?? '')
-			.replace(/{{contactBirthday}}/g, this.contact.birthday?.toLocaleDateString() ?? '')
+			.replace(/{{contactBirthday}}/g, this.contact.birthday ? formatBirthday(this.contact.birthday) : '')
 			.replace(/{{snake_contactName}}/g, this.contact.name.toLowerCase().replace(/ /g, '_'))
 	}
 

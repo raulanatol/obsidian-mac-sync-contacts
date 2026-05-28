@@ -3,16 +3,19 @@ import { spawn } from 'child_process';
 import VCard from 'vcard-parser';
 import { Contact } from './Contact';
 
-const SCRIPT = `
-	tell application "Contacts"
-		activate
-		set vCardText to (get vcard of every person in group "obsidian") as text
-	end tell
-`;
+const buildScript = (group: string): string => {
+	const escapedGroup = group.replace(/"/g, '\\"');
+	return `
+		tell application "Contacts"
+			activate
+			set vCardText to (get vcard of every person in group "${escapedGroup}") as text
+		end tell
+	`;
+};
 
-const getRawContacts = () => {
+const getRawContacts = (group: string) => {
 	return new Promise((resolve, reject) => {
-		const command = spawn('osascript', ['-e', SCRIPT]);
+		const command = spawn('osascript', ['-e', buildScript(group)]);
 		let output = '';
 		let errorOutput = '';
 
@@ -57,7 +60,7 @@ const parseContacts = (rawContacts: unknown) => {
 	return contacts;
 };
 
-export const getContacts = async (): Promise<Contact[]> => {
-	const result = await getRawContacts();
+export const getContacts = async (group: string): Promise<Contact[]> => {
+	const result = await getRawContacts(group);
 	return parseContacts(result);
 }
