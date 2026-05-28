@@ -1,7 +1,7 @@
-import { spawn } from 'child_process';
 // @ts-ignore
 import VCard from 'vcard-parser';
 import { Contact } from './Contact';
+import { runOsaScript } from './osascript';
 
 const buildScript = (group: string): string => {
   const escapedGroup = group.replace(/"/g, '\\"');
@@ -11,33 +11,6 @@ const buildScript = (group: string): string => {
 			set vCardText to (get vcard of every person in group "${escapedGroup}") as text
 		end tell
 	`;
-};
-
-const getRawContacts = (group: string) => {
-  return new Promise((resolve, reject) => {
-    const command = spawn('osascript', ['-e', buildScript(group)]);
-    let output = '';
-    let errorOutput = '';
-
-    command.stdout.on('data', data => {
-      output += data;
-    });
-
-    command.stderr.on('data', data => {
-      errorOutput += data;
-    });
-
-    command.on('close', code => {
-      if (code != 0) {
-        return reject(new Error(`Command failed with exit code ${code}: ${errorOutput}`));
-      }
-      resolve(output);
-    });
-
-    command.on('error', error => {
-      reject(error);
-    });
-  });
 };
 
 const parseContacts = (rawContacts: unknown) => {
@@ -61,6 +34,6 @@ const parseContacts = (rawContacts: unknown) => {
 };
 
 export const getContacts = async (group: string): Promise<Contact[]> => {
-  const result = await getRawContacts(group);
+  const result = await runOsaScript(buildScript(group));
   return parseContacts(result);
 };

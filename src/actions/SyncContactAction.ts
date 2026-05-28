@@ -5,6 +5,13 @@ import { ContactFileProcessor } from './ContactFileProcessor';
 import { formatBirthday } from './formatBirthday';
 import { getGroupLetter, slugify } from '../contacts/slugify';
 
+const toYamlInlineArray = (values: string[] | undefined): string => {
+  if (!values || values.length === 0) {
+    return '[]';
+  }
+  return '[' + values.map(v => `'${v.replace(/'/g, "''")}'`).join(', ') + ']';
+};
+
 export class SyncContactAction {
   readonly contact: Contact;
   readonly context: Context;
@@ -30,10 +37,15 @@ export class SyncContactAction {
   replaceTemplateVariables(body: string): string {
     return body
       .replace(/{{contactName}}/g, this.contact.name)
+      .replace(/{{contactUID}}/g, this.contact.uid ?? '')
       .replace(/{{contactEmail}}/g, this.contact.emails?.[0] ?? '')
       .replace(/{{contactPhone}}/g, this.contact.phones?.[0] ?? '')
       .replace(/{{contactWebsite}}/g, this.contact.website?.[0] ?? '')
       .replace(/{{contactAddress}}/g, this.contact.address?.[0] ?? '')
+      .replace(/{{contactEmails}}/g, toYamlInlineArray(this.contact.emails))
+      .replace(/{{contactPhones}}/g, toYamlInlineArray(this.contact.phones))
+      .replace(/{{contactWebsites}}/g, toYamlInlineArray(this.contact.website))
+      .replace(/{{contactAddresses}}/g, toYamlInlineArray(this.contact.address))
       .replace(/{{contactBirthday}}/g, this.contact.birthday ? formatBirthday(this.contact.birthday) : '')
       .replace(/{{snake_contactName}}/g, this.contact.name.toLowerCase().replace(/ /g, '_'));
   }
