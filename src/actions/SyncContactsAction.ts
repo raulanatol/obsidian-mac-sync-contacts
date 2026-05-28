@@ -11,7 +11,7 @@ export class SyncContactsAction {
 	}
 
 	async execute(): Promise<Contact[]> {
-		const contacts = await getContacts();
+		const contacts = await getContacts(this.context.settings.contactsGroup);
 		const promises = contacts.map(contact => new SyncContactAction(this.context, contact).execute());
 		await Promise.all(promises);
 		return contacts;
