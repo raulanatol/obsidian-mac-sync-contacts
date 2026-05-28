@@ -14,24 +14,12 @@ class Suggest<T> {
 	private selectedItem: number;
 	private containerEl: HTMLElement;
 
-	constructor(
-		owner: ISuggestOwner<T>,
-		containerEl: HTMLElement,
-		scope: Scope
-	) {
+	constructor(owner: ISuggestOwner<T>, containerEl: HTMLElement, scope: Scope) {
 		this.owner = owner;
 		this.containerEl = containerEl;
 
-		containerEl.on(
-			'click',
-			'.suggestion-item',
-			this.onSuggestionClick.bind(this)
-		);
-		containerEl.on(
-			'mousemove',
-			'.suggestion-item',
-			this.onSuggestionMouseover.bind(this)
-		);
+		containerEl.on('click', '.suggestion-item', this.onSuggestionClick.bind(this));
+		containerEl.on('mousemove', '.suggestion-item', this.onSuggestionMouseover.bind(this));
 
 		scope.register([], 'ArrowUp', (event) => {
 			if (!event.isComposing) {
@@ -91,10 +79,7 @@ class Suggest<T> {
 	}
 
 	setSelectedItem(selectedIndex: number, scrollIntoView: boolean) {
-		const normalizedIndex = wrapAround(
-			selectedIndex,
-			this.suggestions.length
-		);
+		const normalizedIndex = wrapAround(selectedIndex, this.suggestions.length);
 		const prevSelectedSuggestion = this.suggestions[this.selectedItem];
 		const selectedSuggestion = this.suggestions[normalizedIndex];
 
@@ -130,13 +115,9 @@ export abstract class TextInputSuggest<T> implements ISuggestOwner<T> {
 		this.inputEl.addEventListener('input', this.onInputChanged.bind(this));
 		this.inputEl.addEventListener('focus', this.onInputChanged.bind(this));
 		this.inputEl.addEventListener('blur', this.close.bind(this));
-		this.suggestEl.on(
-			'mousedown',
-			'.suggestion-container',
-			(event: MouseEvent) => {
-				event.preventDefault();
-			}
-		);
+		this.suggestEl.on('mousedown', '.suggestion-container', (event: MouseEvent) => {
+			event.preventDefault();
+		});
 	}
 
 	onInputChanged(): void {

@@ -2,8 +2,5 @@
 	"rules": {
 		"no-unused-vars": ["error", { "args": "none" }]
 	},
-	"ignorePatterns": [
-		"main.js",
-		"node_modules"
-	]
+	"ignorePatterns": ["main.js", "node_modules"]
 }

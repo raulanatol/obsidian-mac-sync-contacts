@@ -2,6 +2,14 @@
 	"name": "obsidian-mac-sync-contacts",
 	"version": "1.0.7",
 	"description": "Sync your contacts with your Mac's Contacts app.",
+	"keywords": [
+		"contacts",
+		"macosx",
+		"obsidian",
+		"sync"
+	],
+	"license": "MIT",
+	"author": "raulanatol",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -12,14 +20,10 @@
 		"fmt:check": "oxfmt --check",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
-	"keywords": [
-		"obsidian",
-		"contacts",
-		"macosx",
-		"sync"
-	],
-	"author": "raulanatol",
-	"license": "MIT",
+	"dependencies": {
+		"@popperjs/core": "2.11.8",
+		"vcard-parser": "1.0.0"
+	},
 	"devDependencies": {
 		"@types/node": "16.11.6",
 		"builtin-modules": "3.3.0",
@@ -30,9 +34,5 @@
 		"tslib": "2.4.0",
 		"typescript": "4.7.4",
 		"vitest": "0.34.6"
-	},
-	"dependencies": {
-		"@popperjs/core": "2.11.8",
-		"vcard-parser": "1.0.0"
 	}
 }

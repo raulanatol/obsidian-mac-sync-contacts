@@ -13,7 +13,7 @@ export class MacSyncContactsPlugin extends Plugin {
 		this.context = new Context(this.settings, this.app);
 
 		this.addRibbonIcon('contact', 'Sync mac contacts', (evt: MouseEvent) => {
-			new SyncContactsAction(this.context).execute().then(contacts => {
+			new SyncContactsAction(this.context).execute().then((contacts) => {
 				new Notice(`Sync ${contacts.length} contacts`);
 			});
 		}).addClass('sync-mac-contacts-ribbon-class');
@@ -21,9 +21,7 @@ export class MacSyncContactsPlugin extends Plugin {
 		this.addSettingTab(new SettingsTab(this.app, this));
 	}
 
-	onunload() {
-
-	}
+	onunload() {}
 
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());

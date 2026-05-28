@@ -12,7 +12,7 @@ Sync contacts from your mac contacts app to obsidian.
 ## Template variables
 
 | Variable                | Description                       | Example                           |
-|-------------------------|-----------------------------------|-----------------------------------|
+| ----------------------- | --------------------------------- | --------------------------------- |
 | `{{contactName}}`       | Name of the contact               | John Doe                          |
 | `{{contactEmail}}`      | First email of the contact        | john@doe.com                      |
 | `{{contactPhone}}`      | First phone of the contact        | +1 234 567 890                    |

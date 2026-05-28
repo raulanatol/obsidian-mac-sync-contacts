@@ -1,4 +1,4 @@
-const cleanup = value => value.toLowerCase().replaceAll(' ', '');
+const cleanup = (value) => value.toLowerCase().replaceAll(' ', '');
 
 const nameFromRaw = (fn: any): string => {
 	if (!fn) {
@@ -7,23 +7,21 @@ const nameFromRaw = (fn: any): string => {
 
 	const rawValue = fn[0].value;
 	return rawValue.replaceAll('/', ' ');
-}
+};
 
 const phonesFromRaw = (tel: any): string[] | undefined => {
 	if (!tel) {
 		return undefined;
 	}
-	return tel.map(tel =>
-		cleanup(tel.value));
-}
+	return tel.map((tel) => cleanup(tel.value));
+};
 
 const emailsFromRaw = (email: any): string[] | undefined => {
 	if (!email) {
 		return undefined;
 	}
 
-	return email.map(email =>
-		cleanup(email.value));
+	return email.map((email) => cleanup(email.value));
 };
 
 const websitesFromRaw = (url): string[] | undefined => {
@@ -31,16 +29,14 @@ const websitesFromRaw = (url): string[] | undefined => {
 		return undefined;
 	}
 
-	return url.map(url =>
-		cleanup(url.value));
+	return url.map((url) => cleanup(url.value));
 };
 
 const addressFromRaw = (adr): string[] | undefined => {
 	if (!adr) {
 		return undefined;
 	}
-	return adr.map(adr =>
-		adr.value.filter(str => str.length).join(', '));
+	return adr.map((adr) => adr.value.filter((str) => str.length).join(', '));
 };
 
 const birthdayFromRaw = (bday): Date | undefined => {
@@ -48,7 +44,7 @@ const birthdayFromRaw = (bday): Date | undefined => {
 		return undefined;
 	}
 	return new Date(Date.parse(cleanup(bday?.[0].value)));
-}
+};
 
 interface ConstructorParams {
 	name: string;
@@ -89,7 +85,7 @@ export class Contact {
 			emails,
 			website,
 			address,
-			birthday
+			birthday,
 		});
 	}
 }

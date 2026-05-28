@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Contact } from '../Contact';
 
 const base = {
-	fn: [{ value: 'John Doe' }]
+	fn: [{ value: 'John Doe' }],
 };
 
 describe('Contact', () => {
@@ -17,6 +17,6 @@ describe('Contact', () => {
 				const contact = Contact.fromRaw({ ...base, fn: [{ value: 'John Doe/Jane Doe' }] });
 				expect(contact.name).toBe('John Doe Jane Doe');
 			});
-		})
+		});
 	});
 });

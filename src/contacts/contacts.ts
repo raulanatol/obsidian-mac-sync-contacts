@@ -38,7 +38,7 @@ const getRawContacts = (group: string) => {
 			reject(error);
 		});
 	});
-}
+};
 
 const parseContacts = (rawContacts: unknown) => {
 	if (typeof rawContacts !== 'string') {
@@ -63,4 +63,4 @@ const parseContacts = (rawContacts: unknown) => {
 export const getContacts = async (group: string): Promise<Contact[]> => {
 	const result = await getRawContacts(group);
 	return parseContacts(result);
-}
+};
