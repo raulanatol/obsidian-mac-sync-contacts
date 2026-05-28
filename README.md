@@ -7,7 +7,10 @@ Sync contacts from your mac contacts app to obsidian.
 1. In macOS Contacts.app, create a group containing the contacts you want to sync. By default the plugin looks for a group named `obsidian` — you can change the group name in the plugin settings (**Contacts group**).
 2. In the plugin settings, set **Contacts folder** to the vault folder where notes should be written (default: `People`).
 3. Optionally enable **Update contacts?** to overwrite existing notes when contacts change in Contacts.app. With this off, existing notes are left untouched.
-4. Click the contacts icon in the ribbon to run a sync.
+4. Optionally enable **Group by first letter** to nest each note under a subfolder named after the first letter of the contact (e.g. `People/A/alejandro-fernandez.md`).
+5. Click the contacts icon in the ribbon to run a sync.
+
+Filenames are always normalized to lowercase, hyphen-separated, ASCII-safe (e.g. `Álvaro Núñez` → `alvaro-nunez.md`).
 
 ## Template variables
 
