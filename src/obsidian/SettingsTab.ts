@@ -8,6 +8,13 @@ const DEFAULT_CONTACT_TEMPLATE = `# {{contactName}}
 
 const DEFAULT_PROPERTIES_TEMPLATE = `---
 type: 'people'
+contactUID: '{{contactUID}}'
+name: '{{contactName}}'
+emails: {{contactEmails}}
+phones: {{contactPhones}}
+websites: {{contactWebsites}}
+addresses: {{contactAddresses}}
+birthday: '{{contactBirthday}}'
 ---
 `;
 
