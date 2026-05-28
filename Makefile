@@ -5,15 +5,15 @@ help:
 
 init: ## Initialising the project
 	@echo "Initialising the project"
-	@npm ci
+	@pnpm install --frozen-lockfile
 	@echo "✅"
 
 build: test ## Build the project
-	@npm run build
+	@pnpm build
 	@echo "✅"
 
 test: ## Run the tests
-	@npm run test
+	@pnpm test
 	@echo "✅"
 
 release_patch: release ## Create a new patch release
