@@ -29,4 +29,13 @@ export class FileHelper {
       return processor(oldContent);
     });
   }
+
+  async upsert(normalizedPath: string, body: string): Promise<void> {
+    const existing = this.app.vault.getAbstractFileByPath(normalizedPath);
+    if (existing instanceof TFile) {
+      await this.app.vault.process(existing, () => body);
+      return;
+    }
+    await this.app.vault.create(normalizedPath, body);
+  }
 }

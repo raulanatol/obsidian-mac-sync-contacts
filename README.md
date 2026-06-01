@@ -4,11 +4,11 @@ Sync contacts from your mac contacts app to obsidian.
 
 ## Setup
 
-1. In macOS Contacts.app, create a group containing the contacts you want to sync. By default the plugin looks for a group named `obsidian` — you can change the group name in the plugin settings (**Contacts group**).
-2. In the plugin settings, set **Contacts folder** to the vault folder where notes should be written (default: `People`).
-3. Optionally enable **Update contacts?** to overwrite existing notes when contacts change in Contacts.app. With this off, existing notes are left untouched.
-4. Optionally enable **Group by first letter** to nest each note under a subfolder named after the first letter of the contact (e.g. `People/A/alejandro-fernandez.md`).
-5. Click the contacts icon in the ribbon to run a sync.
+1. In the plugin settings, set **Contacts folder** to the vault folder where notes should be written (default: `People`).
+2. Optionally enable **Update contacts?** to overwrite existing notes when contacts change in Contacts.app. With this off, existing notes are left untouched.
+3. Optionally enable **Group by first letter** to nest each note under a subfolder named after the first letter of the contact (e.g. `People/A/alejandro-fernandez.md`).
+4. **Generate sync summary** is on by default — after each sync the plugin writes a `_sync-summary.md` inside the contacts folder listing what was created, updated, skipped or failed. Disable it in settings if you don't want it.
+5. Click the contacts icon in the ribbon to run a sync. All contacts from macOS Contacts.app are imported.
 
 Filenames are always normalized to lowercase, hyphen-separated, ASCII-safe (e.g. `Álvaro Núñez` → `alvaro-nunez.md`).
 
@@ -38,6 +38,6 @@ The reverse sync reads **only the YAML frontmatter** — the body of the note is
 
 Behavior:
 
-- The plugin looks up the contact in Mac Contacts by `contactUID` (across the entire address book, not just the configured sync group).
+- The plugin looks up the contact in Mac Contacts by `contactUID` across the entire address book.
 - If the contact is found, its `emails`, `phones`, `websites`, `addresses`, `birthday` and name are **overwritten** with the frontmatter values.
-- If the contact is not found (missing `contactUID` or the UID points to a deleted record), a new contact is created in "All Contacts" (no group is assigned) and the freshly generated `contactUID` is written back to the frontmatter.
+- If the contact is not found (missing `contactUID` or the UID points to a deleted record), a new contact is created in "All Contacts" and the freshly generated `contactUID` is written back to the frontmatter.
