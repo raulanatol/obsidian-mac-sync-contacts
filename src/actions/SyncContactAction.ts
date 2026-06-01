@@ -12,6 +12,15 @@ const toYamlInlineArray = (values: string[] | undefined): string => {
   return '[' + values.map(v => `'${v.replace(/'/g, "''")}'`).join(', ') + ']';
 };
 
+export type SyncStatus = 'created' | 'updated' | 'skipped' | 'failed';
+
+export interface SyncResult {
+  status: SyncStatus;
+  path: string;
+  name: string;
+  error?: string;
+}
+
 export class SyncContactAction {
   readonly contact: Contact;
   readonly context: Context;
@@ -50,20 +59,23 @@ export class SyncContactAction {
       .replace(/{{snake_contactName}}/g, this.contact.name.toLowerCase().replace(/ /g, '_'));
   }
 
-  async execute() {
+  async execute(): Promise<SyncResult> {
     await this.createContactsFolder();
-    const filename = await this.context.fileHelper.getAbstractFileByPath(this.getFilepath());
-    if (!(filename instanceof TFile)) {
+    const path = this.getFilepath();
+    const name = this.contact.name;
+    const existing = await this.context.fileHelper.getAbstractFileByPath(path);
+
+    if (!(existing instanceof TFile)) {
       await this.createContact();
-      return;
+      return { status: 'created', path, name };
     }
 
-    // Update contact
     if (!this.context.settings.updateContacts) {
-      return;
+      return { status: 'skipped', path, name };
     }
 
-    await this.updateContactIn(filename);
+    await this.updateContactIn(existing);
+    return { status: 'updated', path, name };
   }
 
   private async createContactsFolder(): Promise<void> {

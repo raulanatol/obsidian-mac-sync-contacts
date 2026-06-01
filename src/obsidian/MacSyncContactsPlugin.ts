@@ -14,8 +14,10 @@ export class MacSyncContactsPlugin extends Plugin {
     this.context = new Context(this.settings, this.app);
 
     this.addRibbonIcon('contact', 'Sync mac contacts', (evt: MouseEvent) => {
-      new SyncContactsAction(this.context).execute().then(contacts => {
-        new Notice(`Sync ${contacts.length} contacts`);
+      new SyncContactsAction(this.context).execute().then(stats => {
+        new Notice(
+          `Synced ${stats.total} contacts (${stats.created} new, ${stats.updated} updated, ${stats.failed} failed)`
+        );
       });
     }).addClass('sync-mac-contacts-ribbon-class');
 

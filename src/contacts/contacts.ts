@@ -3,12 +3,11 @@ import VCard from 'vcard-parser';
 import { Contact } from './Contact';
 import { runOsaScript } from './osascript';
 
-const buildScript = (group: string): string => {
-  const escapedGroup = group.replace(/"/g, '\\"');
+const buildScript = (): string => {
   return `
 		tell application "Contacts"
 			activate
-			set vCardText to (get vcard of every person in group "${escapedGroup}") as text
+			set vCardText to (get vcard of every person) as text
 		end tell
 	`;
 };
@@ -33,7 +32,7 @@ const parseContacts = (rawContacts: unknown) => {
   return contacts;
 };
 
-export const getContacts = async (group: string): Promise<Contact[]> => {
-  const result = await runOsaScript(buildScript(group));
+export const getContacts = async (): Promise<Contact[]> => {
+  const result = await runOsaScript(buildScript());
   return parseContacts(result);
 };
