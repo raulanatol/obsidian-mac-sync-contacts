@@ -8,7 +8,13 @@ describe('slugify', () => {
 
   it('strips diacritics', () => {
     expect(slugify('Álvaro Núñez')).toBe('alvaro-nunez');
-    expect(slugify('Élena Çırak')).toBe('elena-c-rak');
+    expect(slugify('Élena Çırak')).toBe('elena-cirak');
+  });
+
+  it('transliterates non-decomposable letters', () => {
+    expect(slugify('Łukasz')).toBe('lukasz');
+    expect(slugify('Øystein')).toBe('oystein');
+    expect(slugify('Đorđe')).toBe('dorde');
   });
 
   it('replaces unsafe characters with hyphens', () => {
@@ -39,9 +45,17 @@ describe('getGroupLetter', () => {
   });
 
   it('normalizes diacritics before picking the letter', () => {
+    expect(getGroupLetter('Óscar')).toBe('O');
     expect(getGroupLetter('Álvaro')).toBe('A');
     expect(getGroupLetter('Émile')).toBe('E');
     expect(getGroupLetter('Ñoño')).toBe('N');
+    expect(getGroupLetter('Östen')).toBe('O');
+  });
+
+  it('groups non-decomposable letters under their base letter', () => {
+    expect(getGroupLetter('Łukasz')).toBe('L');
+    expect(getGroupLetter('Øystein')).toBe('O');
+    expect(getGroupLetter('Æsop')).toBe('A');
   });
 
   it('falls back to underscore when the name yields no letter', () => {
