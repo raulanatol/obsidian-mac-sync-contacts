@@ -4,6 +4,7 @@ import { Context } from '../obsidian/Context';
 import { ContactFileProcessor } from './ContactFileProcessor';
 import { formatBirthday } from './formatBirthday';
 import { getGroupLetter, slugify } from '../contacts/slugify';
+import { applyFieldMappings } from './contactFields';
 
 const toYamlInlineArray = (values: string[] | undefined): string => {
   if (!values || values.length === 0) {
@@ -44,7 +45,7 @@ export class SyncContactAction {
   }
 
   replaceTemplateVariables(body: string): string {
-    return body
+    let result = body
       .replace(/{{contactName}}/g, this.contact.name)
       .replace(/{{contactUID}}/g, this.contact.uid ?? '')
       .replace(/{{contactEmail}}/g, this.contact.emails?.[0] ?? '')
@@ -57,6 +58,8 @@ export class SyncContactAction {
       .replace(/{{contactAddresses}}/g, toYamlInlineArray(this.contact.address))
       .replace(/{{contactBirthday}}/g, this.contact.birthday ? formatBirthday(this.contact.birthday) : '')
       .replace(/{{snake_contactName}}/g, this.contact.name.toLowerCase().replace(/ /g, '_'));
+
+    return applyFieldMappings(result, this.contact, this.context.settings.fieldMappings);
   }
 
   async execute(): Promise<SyncResult> {
