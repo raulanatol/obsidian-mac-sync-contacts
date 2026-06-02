@@ -30,6 +30,18 @@ Filenames are always normalized to lowercase, hyphen-separated, ASCII-safe (e.g.
 |                         |                                      |                                   |
 | `{{snake_contactName}}` | Name of the contact in snake case    | john_doe                          |
 
+### Custom field mappings
+
+If the built-in variables aren't enough, you can define your own under **Settings → Field mappings**. Each row maps a Contacts field to a variable name of your choice, which you can then interpolate in either template as `{{yourAlias}}`.
+
+For example, mapping `Name → username` lets you write:
+
+```yaml
+username: '{{username}}'
+```
+
+For multivalued fields (emails, phones, websites, addresses) the **first value** is used, just like `{{contactEmail}}`/`{{contactPhone}}`.
+
 ## Sync from Obsidian to Mac Contacts
 
 You can push a contact back to macOS Contacts.app using the command **Sync active contact to Mac Contacts** (open the command palette with `Cmd+P` while a contact note is open).
