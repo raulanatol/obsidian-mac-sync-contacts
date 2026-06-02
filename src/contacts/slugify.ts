@@ -4,8 +4,18 @@ const COMBINING_DIACRITICS = /[̀-ͯ]/g;
 // Without this map they would be stripped and the contact grouped under the
 // wrong letter (e.g. "Łukasz" → "ukasz" → "U").
 const SPECIAL_LETTERS: Record<string, string> = {
-  ł: 'l', ø: 'o', æ: 'ae', œ: 'oe', đ: 'd', ð: 'd', þ: 'th', ß: 'ss',
-  ı: 'i', ħ: 'h', ŋ: 'n', ĸ: 'k',
+  ł: 'l',
+  ø: 'o',
+  æ: 'ae',
+  œ: 'oe',
+  đ: 'd',
+  ð: 'd',
+  þ: 'th',
+  ß: 'ss',
+  ı: 'i',
+  ħ: 'h',
+  ŋ: 'n',
+  ĸ: 'k'
 };
 
 function transliterate(value: string): string {
