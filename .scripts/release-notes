@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# Generates Markdown release notes for a tag by grouping the conventional
+# commits made since the previous tag. Prints to stdout.
+#
+# Usage: .scripts/release-notes [tag]
+#   tag  The tag to generate notes for. Defaults to the most recent tag.
+
+set -eu
+
+TAG="${1:-$(git describe --tags --abbrev=0)}"
+
+# Previous tag reachable from this tag's first parent. Empty on the first release.
+PREV_TAG=$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)
+
+if [[ -n "${PREV_TAG}" ]]; then
+  RANGE="${PREV_TAG}..${TAG}"
+else
+  RANGE="${TAG}"
+fi
+
+REPO_URL=$(git config --get remote.origin.url | sed -E 's#(git@|https://)github.com[:/]##; s#\.git$##')
+
+feats=""; fixes=""; perfs=""; others=""
+
+while IFS='|' read -r subject hash; do
+  # Skip the version-bump commit produced by `pnpm version` (subject is just the version).
+  [[ "${subject}" == "${TAG}" || "${subject}" == "v${TAG}" ]] && continue
+
+  type="${subject%%:*}"            # e.g. "feat(settings)" or the whole subject
+  scoped_type="${type%%(*}"        # strip "(scope)" -> "feat"
+  desc="${subject#*: }"            # text after "type: "
+  [[ "${desc}" == "${subject}" ]] && desc="${subject}"  # no "type:" prefix -> use as is
+
+  line="- ${desc} (\`${hash}\`)"
+
+  case "${scoped_type}" in
+    feat) feats+="${line}"$'\n' ;;
+    fix) fixes+="${line}"$'\n' ;;
+    perf) perfs+="${line}"$'\n' ;;
+    docs|chore|ci|refactor|test|style|build) ;;  # internal, omit from notes
+    *) others+="${line}"$'\n' ;;
+  esac
+done < <(git log "${RANGE}" --no-merges --pretty=format:'%s|%h')
+
+emit_section() {
+  local title="$1" body="$2"
+  [[ -n "${body}" ]] && printf '### %s\n\n%s\n' "${title}" "${body}"
+  return 0
+}
+
+emit_section "🚀 Features" "${feats}"
+emit_section "🐛 Bug Fixes" "${fixes}"
+emit_section "⚡ Performance" "${perfs}"
+emit_section "📦 Other" "${others}"
+
+if [[ -n "${PREV_TAG}" ]]; then
+  printf '\n**Full Changelog**: https://github.com/%s/compare/%s...%s\n' "${REPO_URL}" "${PREV_TAG}" "${TAG}"
+fi
