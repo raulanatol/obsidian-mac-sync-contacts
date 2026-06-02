@@ -9,3 +9,8 @@ src
 tsconfig.json
 version-bump.mjs
 versions.json
+.idea
+CLAUDE.md
+.jump
+.oxfmtrc.json
+.oxlintrc.json
