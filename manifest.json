@@ -1,7 +1,7 @@
 {
   "id": "obsidian-mac-sync-contacts",
   "name": "Mac Sync Contacts",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "minAppVersion": "0.15.0",
   "description": "Sync your contacts with your Mac's Contacts app.",
   "author": "raulanatol",
