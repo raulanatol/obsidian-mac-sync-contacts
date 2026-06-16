@@ -53,6 +53,13 @@ const uidFromRaw = (uid: any): string | undefined => {
   return uid[0].value;
 };
 
+const nicknameFromRaw = (nickname: any): string | undefined => {
+  if (!nickname) {
+    return undefined;
+  }
+  return nickname[0].value;
+};
+
 interface ConstructorParams {
   name: string;
   phones: string[] | undefined;
@@ -61,6 +68,7 @@ interface ConstructorParams {
   address: any;
   birthday: Date | undefined;
   uid: string | undefined;
+  nickname?: string;
 }
 
 export class Contact {
@@ -71,6 +79,7 @@ export class Contact {
   address: string[] | undefined;
   birthday: Date | undefined;
   uid: string | undefined;
+  nickname: string | undefined;
 
   constructor(params: ConstructorParams) {
     this.name = params.name;
@@ -80,6 +89,7 @@ export class Contact {
     this.address = params.address;
     this.birthday = params.birthday;
     this.uid = params.uid;
+    this.nickname = params.nickname;
   }
 
   static fromRaw(raw: any): Contact {
@@ -90,6 +100,7 @@ export class Contact {
     const address = addressFromRaw(raw.adr);
     const birthday = birthdayFromRaw(raw.bday);
     const uid = uidFromRaw(raw.uid);
+    const nickname = nicknameFromRaw(raw.nickname);
     return new Contact({
       name,
       phones,
@@ -97,7 +108,8 @@ export class Contact {
       website,
       address,
       birthday,
-      uid
+      uid,
+      nickname
     });
   }
 }

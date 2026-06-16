@@ -17,7 +17,9 @@ Filenames are always normalized to lowercase, hyphen-separated, ASCII-safe (e.g.
 | Variable                | Description                          | Example                           |
 | ----------------------- | ------------------------------------ | --------------------------------- |
 | `{{contactName}}`       | Name of the contact                  | John Doe                          |
+| `{{contactNickname}}`   | Nickname of the contact              | Johnny                            |
 | `{{contactUID}}`        | UID of the contact in Mac Contacts   | AB-CD-EF-12                       |
+| `{{contactURL}}`        | Deep link to the contact in Contacts | addressbook://AB-CD-EF-12         |
 | `{{contactEmail}}`      | First email of the contact           | john@doe.com                      |
 | `{{contactPhone}}`      | First phone of the contact           | +1 234 567 890                    |
 | `{{contactWebsite}}`    | First website of the contact         | https://doe.com                   |
@@ -46,7 +48,7 @@ For multivalued fields (emails, phones, websites, addresses) the **first value**
 
 You can push a contact back to macOS Contacts.app using the command **Sync active contact to Mac Contacts** (open the command palette with `Cmd+P` while a contact note is open).
 
-The reverse sync reads **only the YAML frontmatter** — the body of the note is ignored. The default properties template now includes the fields needed for the round trip (`contactUID`, `name`, `emails`, `phones`, `websites`, `addresses`, `birthday`). If you customized your properties template you'll need to add at least `contactUID` and any fields you want pushed back.
+The reverse sync reads **only the YAML frontmatter** — the body of the note is ignored. The default properties template now includes the fields needed for the round trip (`contactUID`, `contactURL`, `name`, `nickname`, `emails`, `phones`, `websites`, `addresses`, `birthday`). If you customized your properties template you'll need to add at least `contactUID` and any fields you want pushed back.
 
 Behavior:
 

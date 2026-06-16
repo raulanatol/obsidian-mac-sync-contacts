@@ -1,12 +1,13 @@
 import { Contact } from '../contacts/Contact';
 import { formatBirthday } from './formatBirthday';
 
-export const CONTACT_FIELD_KEYS = ['name', 'uid', 'email', 'phone', 'website', 'address', 'birthday'] as const;
+export const CONTACT_FIELD_KEYS = ['name', 'nickname', 'uid', 'email', 'phone', 'website', 'address', 'birthday'] as const;
 
 export type ContactFieldKey = (typeof CONTACT_FIELD_KEYS)[number];
 
 export const CONTACT_FIELD_LABELS: Record<ContactFieldKey, string> = {
   name: 'Name',
+  nickname: 'Nickname',
   uid: 'UID',
   email: 'Email (first)',
   phone: 'Phone (first)',
@@ -29,6 +30,8 @@ export const resolveContactField = (contact: Contact, key: ContactFieldKey): str
   switch (key) {
     case 'name':
       return contact.name;
+    case 'nickname':
+      return contact.nickname ?? '';
     case 'uid':
       return contact.uid ?? '';
     case 'email':
