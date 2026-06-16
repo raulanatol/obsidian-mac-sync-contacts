@@ -8,8 +8,16 @@ init: ## Initialising the project
 	@pnpm install --frozen-lockfile
 	@echo "✅"
 
-build: test ## Build the project
+build: test lint fmt-check ## Build the project
 	@pnpm build
+	@echo "✅"
+
+lint: ## Run the linter
+	@pnpm lint
+	@echo "✅"
+
+fmt-check: ## Check formatting
+	@pnpm fmt:check
 	@echo "✅"
 
 test: ## Run the tests

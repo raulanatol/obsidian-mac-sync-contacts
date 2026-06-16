@@ -1,7 +1,16 @@
 import { Contact } from '../contacts/Contact';
 import { formatBirthday } from './formatBirthday';
 
-export const CONTACT_FIELD_KEYS = ['name', 'nickname', 'uid', 'email', 'phone', 'website', 'address', 'birthday'] as const;
+export const CONTACT_FIELD_KEYS = [
+  'name',
+  'nickname',
+  'uid',
+  'email',
+  'phone',
+  'website',
+  'address',
+  'birthday'
+] as const;
 
 export type ContactFieldKey = (typeof CONTACT_FIELD_KEYS)[number];
 
