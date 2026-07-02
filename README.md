@@ -1,6 +1,20 @@
 # Obsidian mac sync contacts plugin
 
-Sync contacts from your mac contacts app to obsidian.
+Sync contacts from your mac contacts app to obsidian, and push updates back the other way.
+
+## Requirements
+
+- **macOS only.** The plugin talks to Contacts.app through AppleScript (`osascript`), so it only works on the desktop app on macOS (`isDesktopOnly: true`) — it cannot run on mobile or other platforms.
+- **Contacts access permission.** The first time you sync, macOS will prompt you to grant Obsidian access to your Contacts. You need to allow it for the plugin to work.
+- **No third-party network calls.** All syncing happens locally between Contacts.app and your vault via AppleScript; the plugin does not send your data anywhere.
+
+## Installation
+
+Until the plugin is available in Obsidian's Community Plugins directory, install it manually:
+
+1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/raulanatol/obsidian-mac-sync-contacts/releases/latest).
+2. Copy both files into `<your-vault>/.obsidian/plugins/obsidian-mac-sync-contacts/`.
+3. Reload Obsidian and enable **Mac Sync Contacts** under Settings → Community plugins.
 
 ## Setup
 
@@ -9,6 +23,14 @@ Sync contacts from your mac contacts app to obsidian.
 3. Optionally enable **Group by first letter** to nest each note under a subfolder named after the first letter of the contact (e.g. `People/A/alejandro-fernandez.md`).
 4. **Generate sync summary** is on by default — after each sync the plugin writes a `_sync-summary.md` inside the contacts folder listing what was created, updated, skipped or failed. Disable it in settings if you don't want it.
 5. Click the contacts icon in the ribbon to run a sync. All contacts from macOS Contacts.app are imported.
+
+The plugin adds three commands to the command palette (`Cmd+P`):
+
+| Command                                     | Direction         | Scope             |
+| -------------------------------------------- | ------------------ | ----------------- |
+| *(ribbon icon)*                              | Mac → Obsidian     | All contacts       |
+| **Sync active contact to Mac Contacts**      | Obsidian → Mac      | Currently open note |
+| **Sync active contact from Mac Contacts**    | Mac → Obsidian     | Currently open note |
 
 Filenames are always normalized to lowercase, hyphen-separated, ASCII-safe (e.g. `Álvaro Núñez` → `alvaro-nunez.md`).
 
@@ -55,3 +77,11 @@ Behavior:
 - The plugin looks up the contact in Mac Contacts by `contactUID` across the entire address book.
 - If the contact is found, its `emails`, `phones`, `websites`, `addresses`, `birthday` and name are **overwritten** with the frontmatter values.
 - If the contact is not found (missing `contactUID` or the UID points to a deleted record), a new contact is created in "All Contacts" and the freshly generated `contactUID` is written back to the frontmatter.
+
+## Sync a single contact from Mac Contacts to Obsidian
+
+To pull the latest data for one contact without running a full sync, open its note and run **Sync active contact from Mac Contacts** from the command palette.
+
+- The note must already have a `contactUID` in its frontmatter (it does after the first sync). If it's missing, the command fails with a notice instead of guessing which Mac contact to use.
+- The plugin looks up that `contactUID` directly in Contacts.app and rewrites the note's frontmatter and body from the current Mac data.
+- This command **always overwrites the note**, regardless of the global **Update contacts?** setting — it's an explicit, single-note action, so it doesn't defer to the bulk-sync safeguard.
