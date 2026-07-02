@@ -50,7 +50,7 @@ const uidFromRaw = (uid: any): string | undefined => {
   if (!uid) {
     return undefined;
   }
-  return uid[0].value;
+  return uid[0].value.replace(/:ABPerson$/, '');
 };
 
 const nicknameFromRaw = (nickname: any): string | undefined => {

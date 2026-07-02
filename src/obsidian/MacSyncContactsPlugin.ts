@@ -2,6 +2,7 @@ import { Notice, Plugin } from 'obsidian';
 import { DEFAULT_SETTINGS, MacSyncContactsPluginSettings, SettingsTab } from './SettingsTab';
 import { SyncContactsAction } from '../actions/SyncContactsAction';
 import { SyncContactToMacAction } from '../actions/SyncContactToMacAction';
+import { SyncContactFromMacAction } from '../actions/SyncContactFromMacAction';
 import { Context } from './Context';
 
 export class MacSyncContactsPlugin extends Plugin {
@@ -39,6 +40,29 @@ export class MacSyncContactsPlugin extends Plugin {
           })
           .catch((err: Error) => {
             new Notice(`Sync to Mac Contacts failed: ${err.message}`);
+          });
+        return true;
+      }
+    });
+
+    this.addCommand({
+      id: 'sync-active-contact-from-mac',
+      name: 'Sync active contact from Mac Contacts',
+      checkCallback: (checking: boolean) => {
+        const file = this.app.workspace.getActiveFile();
+        if (!file || file.extension !== 'md') {
+          return false;
+        }
+        if (checking) {
+          return true;
+        }
+        new SyncContactFromMacAction(this.context, file)
+          .execute()
+          .then((result) => {
+            new Notice(`Contact ${result.status}: ${result.name}`);
+          })
+          .catch((err: Error) => {
+            new Notice(`Sync from Mac Contacts failed: ${err.message}`);
           });
         return true;
       }

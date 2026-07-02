@@ -24,10 +24,12 @@ export interface SyncResult {
 export class SyncContactAction {
   readonly contact: Contact;
   readonly context: Context;
+  readonly forceUpdate: boolean;
 
-  constructor(context: Context, contact: Contact) {
+  constructor(context: Context, contact: Contact, forceUpdate = false) {
     this.context = context;
     this.contact = contact;
+    this.forceUpdate = forceUpdate;
   }
 
   getContactFolder(): string {
@@ -76,7 +78,7 @@ export class SyncContactAction {
       return { status: 'created', path, name };
     }
 
-    if (!this.context.settings.updateContacts) {
+    if (!this.context.settings.updateContacts && !this.forceUpdate) {
       return { status: 'skipped', path, name };
     }
 

@@ -25,7 +25,12 @@ describe('Contact', () => {
         expect(contact.uid).toBeUndefined();
       });
 
-      it('extracts the UID verbatim (no cleanup)', () => {
+      it('extracts the UID and strips :ABPerson suffix', () => {
+        const contact = Contact.fromRaw({ ...base, uid: [{ value: 'AB-CD-EF-12 34:ABPerson' }] });
+        expect(contact.uid).toBe('AB-CD-EF-12 34');
+      });
+
+      it('keeps UID as-is when no :ABPerson suffix', () => {
         const contact = Contact.fromRaw({ ...base, uid: [{ value: 'AB-CD-EF-12 34' }] });
         expect(contact.uid).toBe('AB-CD-EF-12 34');
       });

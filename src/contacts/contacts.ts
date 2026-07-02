@@ -12,6 +12,17 @@ const buildScript = (): string => {
 	`;
 };
 
+const buildScriptByUid = (uid: string): string => {
+  const escapedUid = uid.replace(/"/g, '\\"');
+  return `
+		tell application "Contacts"
+			activate
+			set thePerson to first person whose id is "${escapedUid}"
+			set vCardText to (get vcard of thePerson) as text
+		end tell
+	`;
+};
+
 const parseContacts = (rawContacts: unknown) => {
   if (typeof rawContacts !== 'string') {
     throw new Error(`Result is not a string. ${rawContacts}`);
@@ -35,4 +46,10 @@ const parseContacts = (rawContacts: unknown) => {
 export const getContacts = async (): Promise<Contact[]> => {
   const result = await runOsaScript(buildScript());
   return parseContacts(result);
+};
+
+export const getContactByUid = async (uid: string): Promise<Contact | null> => {
+  const result = await runOsaScript(buildScriptByUid(uid));
+  const contacts = parseContacts(result);
+  return contacts.length > 0 ? contacts[0] : null;
 };
