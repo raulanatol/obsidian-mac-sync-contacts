@@ -2,6 +2,7 @@
 import VCard from 'vcard-parser';
 import { Contact } from './Contact';
 import { runOsaScript } from './osascript';
+import { escapeAppleScriptString } from './applescript';
 
 const buildScript = (): string => {
   return `
@@ -13,7 +14,7 @@ const buildScript = (): string => {
 };
 
 const buildScriptByUid = (uid: string): string => {
-  const escapedUid = uid.replace(/"/g, '\\"');
+  const escapedUid = escapeAppleScriptString(uid);
   return `
 		tell application "Contacts"
 			activate
