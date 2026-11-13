@@ -1,5 +1,29 @@
 # Obsidian mac sync contacts plugin
 
+> [!WARNING]
+> **This project is deprecated and no longer maintained.** Please use
+> [**Contact Forge**](https://github.com/raulanatol/obsidian-contact-forge) instead.
+
+## Deprecation notice
+
+Development has moved to [Contact Forge](https://github.com/raulanatol/obsidian-contact-forge). No new features or bug fixes will be released here, and the plugin will not be submitted to Obsidian's Community Plugins directory.
+
+Contact Forge is **not a drop-in replacement** — it deliberately inverts this plugin's model:
+
+|                    | Mac Sync Contacts (this repo)                         | Contact Forge                                                       |
+| ------------------ | ----------------------------------------------------- | ------------------------------------------------------------------- |
+| Source of truth    | macOS Contacts.app                                    | Your Obsidian vault                                                 |
+| Main direction     | Mac → Obsidian (bulk import of every contact)         | Obsidian → Mac (one-way push of a chosen subset)                    |
+| Scope on the Mac   | Whole address book                                    | A dedicated Contacts group                                          |
+| Conflict handling  | Overwrites the note (manual edits are lost)           | Sync report flags cards edited in Contacts and lets you choose      |
+| Note identity      | `contactUID` (Contacts.app id)                        | Immutable `obsidian_uid`, stamped onto the Mac card                 |
+
+There is no automatic migration: existing notes created by this plugin use a different frontmatter layout, so you will need to adapt them (or start from a fresh folder) when switching. See the [Contact Forge README](https://github.com/raulanatol/obsidian-contact-forge#readme) for setup instructions.
+
+The documentation below is kept for existing users of the last release (4.0.0).
+
+---
+
 Sync contacts from your mac contacts app to obsidian, and push updates back the other way.
 
 ## Requirements
@@ -10,7 +34,7 @@ Sync contacts from your mac contacts app to obsidian, and push updates back the 
 
 ## Installation
 
-Until the plugin is available in Obsidian's Community Plugins directory, install it manually:
+This plugin is not available in Obsidian's Community Plugins directory. To install the last release manually:
 
 1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/raulanatol/obsidian-mac-sync-contacts/releases/latest).
 2. Copy both files into `<your-vault>/.obsidian/plugins/obsidian-mac-sync-contacts/`.
